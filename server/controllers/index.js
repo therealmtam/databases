@@ -11,24 +11,25 @@ var headers = {
 module.exports = {
   messages: {
     get: function (req, res) {
-      console.log("GET HAPPENED!");
-      //
       models.messages.get(messageResults => {
-        console.log("RESULT ", messageResults);
-      
         var messages = JSON.stringify({results: messageResults});
         res.writeHead(200, headers);
         res.write(messages);
         res.end();
       });
-      
       //res.end(JSON.stringify({results: [{username: "Max", text: "Waffles", roomname: "lobby"}]}));
-      
-      
-      
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      console.log("HELLO POST");
+      
+      var data = '';
+      request.on('data', function(chunk) {
+        data += chunk;
+      });
+      request.on('end', function() {
+        models.messages.post(JSON.parse(data), function() {
+          
+        });
+      });
     } // a function which handles posting a message to the database
   },
 
