@@ -1,4 +1,5 @@
 var models = require('../models');
+var parser = require('querystring');
 
 var headers = {
   'access-control-allow-origin': '*',
@@ -11,7 +12,7 @@ var headers = {
 module.exports = {
   messages: {
     get: function (req, res) {
-      models.messages.get(messageResults => {
+      var results = models.messages.get(messageResults => {
         var messages = JSON.stringify({results: messageResults});
         res.writeHead(200, headers);
         res.write(messages);
@@ -22,12 +23,14 @@ module.exports = {
     post: function (req, res) {
       
       var data = '';
-      request.on('data', function(chunk) {
+      req.on('data', function(chunk) {
         data += chunk;
       });
-      request.on('end', function() {
-        models.messages.post(JSON.parse(data), function() {
-          
+      req.on('end', function() {
+        models.messages.post(parser.parse(data), statusCode => {
+          console.log('STATUS', statusCode);
+          res.writeHead(201, headers);
+          res.end('{}');
         });
       });
     } // a function which handles posting a message to the database
