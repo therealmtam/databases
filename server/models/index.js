@@ -1,6 +1,45 @@
 var db = require('../db');
+var dbs = require('./orm-example.js');
 var Promise = require ('bluebird');
 
+// module.exports = {
+//   messages: {
+//     get: function (callback) {
+      
+//       var finalObj = {
+//       };
+      
+//       dbs.users.sync()
+//         .then(function() {
+//           // Retrieve objects from the database:
+//           return dbs.users.findAll();
+//         }).then(results => {
+//           finalObj.users = results;
+//           return dbs.rooms.findAll();
+//         }).then(roomResults => {
+//           finalObj.rooms = roomResults;
+//           return dbs.messages.findAll();
+//         }).then(messages => {
+//           var mappedMsgs = messages.map(msgObj => {
+//             msgObj.
+//           })
+//         });
+
+//     },
+//     post: function (message, callback) {
+      
+//     }
+//   },
+//   users: {
+//     // Ditto as above.
+//     get: function () {},
+//     post: function () {}
+//   }
+// };
+
+
+
+/*---------- db and promises version ----------*/
 module.exports = {
   messages: {
     get: function (callback) {
@@ -19,6 +58,8 @@ module.exports = {
       
     }, // a function which produces all the messages
     post: function (message, callback) {
+      
+      console.log("MSG", message);
       
       var roomname = message.roomname;
       var username = message.username;
@@ -110,15 +151,6 @@ module.exports = {
       }).then(insertMsgResult => {
         callback(201);
       });
-      
-      
-      
-      //Check for roomname id
-        //If UNDEFINED
-            // Write room to DB 
-            // save new ID
-        //ELSE IF ID returned
-            //save roomId
       
     } // a function which can be used to insert a message into the database
   },

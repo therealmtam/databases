@@ -26,6 +26,7 @@ module.exports = {
       req.on('data', function(chunk) {
         data += chunk;
       });
+      
       req.on('end', function() {
         models.messages.post(parser.parse(data), statusCode => {
           console.log('STATUS', statusCode);
